@@ -2,44 +2,15 @@ import React, { useState, useEffect, useCallback, useRef } from "react";
 import { ProposalStep } from "./types";
 import ParallaxHero from "./components/Parallex";
 import Information from "./components/Information";
-import FloatingPetals from "./components/FloatingPetals";
 // import { generateRomanticPoem } from './services/geminiService';
 
-type Lang = "ar" | "en" | "th";
-
 const App: React.FC = () => {
-  const [lang, setLang] = useState<Lang>("ar");
-  const fontClass =
-    lang === "ar" ? "font-ar" : lang === "th" ? "font-th" : "font-en";
-
   return (
-    <div className={`${fontClass} `} dir={lang == "ar" ? "rtl" : "ltr"}>
-      
+    <div className="font-romantic">
+      {/* <HeartBackground /> */}
 
-      {/* Language Button */}
-      <div
-      dir="rtl"
-      className="fixed right-4 top-4 z-[999] rounded-full border border-amber-200 bg-[#f7edd8]/90 p-1 shadow-xl backdrop-blur font-ar">
-        <div className="flex gap-1">
-          {(["ar", "en", "th"] as const).map((item: Lang) => (
-            <button
-              key={item}
-              onClick={() => setLang(item)}
-              className={`rounded-full px-3 py-2 text-xs font-bold transition ${
-                lang === item
-                  ? "bg-[#A25E77] text-white"
-                  : "text-[#A25E77] hover:bg-white/60"
-              }`}
-            >
-              {item === "ar" ? "عربي" : item === "en" ? "English" : "ไทย"}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <ParallaxHero lang={lang} />
-      <Information lang={lang} />
-      <FloatingPetals />
+      <ParallaxHero />
+      <Information />
 
       <style>{`
         .pointing {

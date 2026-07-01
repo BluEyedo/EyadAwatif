@@ -5,137 +5,110 @@ import { useEffect, useRef, useState } from "react";
 import { BiChevronDown } from "react-icons/bi";
 import { BsArrowDown } from "react-icons/bs";
 import { GiVanillaFlower } from "react-icons/gi";
-import { GoHomeFill } from "react-icons/go";
 import { LuCalendarDays, LuClock3, LuMapPin } from "react-icons/lu";
+
+type Lang = "ar" | "en" | "th";
 
 const mapUrl = "https://maps.app.goo.gl/vKCMsrikEJEEQS466";
 const text = {
   ar: {
-    invite: `يسرّهم دعوتكم وتشريفكم بالحضور ومشاركتهم تناول الطعام، وذلك بمناسبة حفل الزواج (الوليمة)`,
+    invite: "يشرفنا دعوتكم لحضور",
+    wedding: "حفل زفاف",
     groom: "إياد محمد تؤيه فواسا",
+    groomParent: "(والدته)فائزة عبدالهادي ساسور",
     bride: "عواطف يوسف لوديغ",
-    groomParent: (
-      <div className="font-th">
-        <p>
-          นายอิดรีส บูกา <span className="font-ar">(رحمه الله)</span>{" "}
-        </p>
-        <p>นางวันสารีฟา บูกา</p>
-      </div>
-    ),
-    brideParent: (
-      <div className="font-th">
-        <p>นายนีโซะ นีเดร์หะ</p>
-        <p>นางนีแวแย นีเดร์</p>
-      </div>
-    ),
-    day: (
-      <>
-        يوم <br /> السبت
-      </>
-    ),
-    invitors: (
-      <div className="font-th">
-        <p>ฮัจญีมูสตาฟา ปูจุต</p>
-        <p>วันสะอิด๊ะห ปูจุต</p>
-      </div>
-    ),
-    date: "يوم السبت الموافق 15 أغسطس 2026م",
+    brideParent: "(والدتها)شريفة علي",
+    day: "السبت",
+    month: "أغسطس",
+    year: "٢٠٢٦",
+    time1: "١٠:٠٠ صباحًا",
+    time2: "٠٣:٠٠ مساءً",
+    venue: "مطعم حسنة فلوء فاكو",
+    location: "محافظة يالا 95000",
     mapTitle: "عرض الموقع",
     mapSmall: "اضغط لفتح خرائط Google",
-    invitation: "بحضوركم تكتمل لنا الأفراح والمسرّات",
+    invitation: "دعوة",
   },
 
   en: {
-    invite: `Cordially invite you to honor them with your presence and join them for a meal 
-    on the occasion of the Wedding Reception (Walimah)`,
+    invite: "We are honored to invite you to attend",
+    wedding: "The Wedding Ceremony",
     groom: "Eyad Muhammad Haji said",
+    groomParent: "Faizah Abdulhadi Sasor",
     bride: "Alwatif Yusuf Luding",
-    groomParent: (
-      <div className="font-th">
-        <p>
-          นายอิดรีส บูกา <span className="font-ar">(رحمه الله)</span>{" "}
-        </p>
-        <p>นางวันสารีฟา บูกา</p>
-      </div>
-    ),
-    brideParent: (
-      <div className="font-th">
-        <p>นายนีโซะ นีเดร์หะ</p>
-        <p>นางนีแวแย นีเดร์</p>
-      </div>
-    ),
-    invitors: (
-      <div className="font-th">
-        <p>ฮัจญีมูสตาฟา ปูจุต</p>
-        <p>วันสะอิด๊ะห ปูจุต</p>
-      </div>
-    ),
-    date: "Saturday, 15 August 2026",
+    brideParent: "Sharifah Ali",
+    day: "Saturday",
+    month: "AUGUST",
+    year: "2026",
+    time1: "10:00 AM",
+    time2: "03:00 PM",
+    venue: "Hasnah Restaurant Phlo Phako",
+    location: "368/1 Suan Khwan Mueang Rd. Sateng, Mueang Yala Yala 95000",
     mapTitle: "View Venue",
     mapSmall: "Tap to open Google Maps",
-    invitation: "Your presence will complete our joy and happiness.",
+    invitation: "INVITATION",
   },
 
   th: {
-    invite: `มีความยินดีขอเรียนเชิญทุกท่านเพื่อเป็นเกียรติและร่วมรับประทานอาหาร เนื่องในงานพิธีมงคลสมรส (วาลีมะห์)`,
+    invite: "เราเรียนเชิญทุกท่านร่วมรับประทานอาหารในงานแต่ง",
+    wedding: "ระหว่าง",
     groom: "อียาด มูฮัมหมัด หะยีสะอิ",
+    groomParent: "ไฟซะห์ อับดุลฮาดี ซาซูร",
     bride: "อัลวาติฟ ยูโซ๊ะ ลูดิง",
-    groomParent: (
-      <div className="font-th">
-        <p>
-          นายอิดรีส บูกา <span className="font-ar">(رحمه الله)</span>{" "}
-        </p>
-        <p>นางวันสารีฟา บูกา</p>
-      </div>
-    ),
-    brideParent: (
-      <div className="font-th">
-        <p>นายนีโซะ นีเดร์หะ</p>
-        <p>นางนีแวแย นีเดร์</p>
-      </div>
-    ),
-    invitors: (
-      <div className="font-th">
-        <p>ฮัจญีมูสตาฟา ปูจุต</p>
-        <p>วันสะอิด๊ะห ปูจุต</p>
-      </div>
-    ),
-    date: "วันเสาร์ที่ 15 สิงหาคม พ.ศ. 2569",
+    brideParent: "ซารีพ๊ะ อาลี",
+    day: "วันเสาร์",
+    month: "สิงหาคม",
+    year: "2569",
+    time1: "10:00 น.",
+    time2: "15:00 น.",
+    venue: "ร้านอาหารฮาซานะห์",
+    location: "368/1 ถ.สวนขวัญเมือง ต.สะเตง อ.เมืองยะลา จ.ยะลา 95000",
     mapTitle: "ดูสถานที่",
     mapSmall: "แตะเพื่อเปิด Google Maps",
-    invitation:
-      "การมาร่วมเป็นเกียรติในงานของท่าน จะเติมเต็มความสุขและความยินดีของเรา",
+    invitation: "คำเชิญ",
   },
 };
 
-type Props = { lang: "ar" | "th" | "en" };
-
-export default function Information({ lang }: Props) {
+export default function Information() {
   const ref = useRef<HTMLDivElement>(null);
+  const [lang, setLang] = useState<Lang>("ar");
 
   const t = text[lang];
+
+  const fontClass =
+    lang === "ar" ? "font-ar" : lang === "th" ? "font-th" : "font-en";
 
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end end"],
   });
 
-  const springConfig = {
-    stiffness: 100,
+  const { scrollYProgress: reverseProgress } = useScroll({
+    target: ref,
+    offset: ["end end", "start start"],
+  });
+
+  const flowerY = useTransform(scrollYProgress, [0, 1], [0, -200]);
+
+  const flowerY2 = useSpring(useTransform(scrollYProgress, [0, 1], [0, -120]), {
+    stiffness: 120,
     damping: 30,
-    mass: 0.8,
-  };
+  });
 
-  const textX = useSpring(
-    useTransform(scrollYProgress, [0, 1], [0, 250]),
-    springConfig,
+  const flowerY3 = useTransform(reverseProgress, [1, 0], [-200, 0]);
+
+  const flowerY4 = useSpring(useTransform(reverseProgress, [1, 0], [-120, 0]), {
+    stiffness: 120,
+    damping: 30,
+  });
+
+  const logoScale = useSpring(
+    useTransform(scrollYProgress, [0, 0.5], [1, 1.12]),
+    {
+      stiffness: 100,
+      damping: 25,
+    },
   );
-
-  const textY = useSpring(
-    useTransform(scrollYProgress, [0, 1], [0, 250]),
-    springConfig,
-  );
-
   const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
@@ -153,15 +126,8 @@ export default function Information({ lang }: Props) {
   return (
     <section
       ref={ref}
-      className={`relative pt-[50px] bg-white shadow-[0_10px_40px_rgba(0,0,0,0.25)] text-[#A25E77] overflow-hidden`}
+      className={`relative min-h-[250vh] bg-[#FDF3EC] ${fontClass}`}
     >
-      <div className="absolute w-full h-full ">
-        <img
-          src="background-wide.png"
-          className="object-contain w-full h-full opacity-50"
-        />
-      </div>
-
       <div
         className={`fixed bottom-1 left-0 right-0 z-[999] flex justify-center ${scrollY > 300 && "opacity-0"} duration-300`}
       >
@@ -174,199 +140,266 @@ export default function Information({ lang }: Props) {
           </p>
         </div>
       </div>
+      {/* Language Button */}
+      <div className="fixed right-4 top-4 z-[999] rounded-full border border-amber-200 bg-[#f7edd8]/90 p-1 shadow-xl backdrop-blur">
+        <div className="flex gap-1">
+          {(["ar", "en", "th"] as const).map((item: Lang) => (
+            <button
+              key={item}
+              onClick={() => setLang(item)}
+              className={`rounded-full px-3 py-2 text-xs font-bold transition ${
+                lang === item
+                  ? "bg-[#34104b] text-white"
+                  : "text-[#34104b] hover:bg-white/60"
+              }`}
+            >
+              {item === "ar" ? "عربي" : item === "en" ? "English" : "ไทย"}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Map Invitation Button */}
+      {/* <a
+        href={mapUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="group fixed bottom-6 left-1/2 z-[999] -translate-x-1/2"
+      >
+        <div className="relative overflow-hidden rounded-2xl border border-amber-300/40 bg-[#f7edd8] px-7 py-4 shadow-[0_20px_50px_rgba(0,0,0,0.35)] transition-all duration-500 group-hover:-translate-y-2 group-hover:scale-105">
+          <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/50 to-transparent transition-all duration-1000 group-hover:translate-x-full" />
+
+          <div className="absolute -top-3 left-1/2 flex h-9 w-9 -translate-x-1/2 items-center justify-center rounded-full bg-rose-700 text-white shadow-lg">
+            ❤
+          </div>
+
+          <div className="mt-3 text-center">
+            <p className="text-[10px] font-bold tracking-[0.35em] text-[#c7963b]">
+              {t.invitation}
+            </p>
+
+            <h3 className="mt-1 text-base font-bold text-[#34104b]">
+              📍 {t.mapTitle}
+            </h3>
+
+            <p className="text-[11px] text-[#34104b]/70">{t.mapSmall}</p>
+          </div>
+        </div>
+      </a> */}
+
+      {/* Background Flowers */}
+      <motion.img
+        src="top-left.png"
+        alt=""
+        style={{ y: flowerY }}
+        className="pointer-events-none fixed left-0 top-0 w-[210px] opacity-70 sm:w-[550px]"
+      />
+
+      <motion.img
+        src="top-right.png"
+        alt=""
+        style={{ y: flowerY2 }}
+        className="pointer-events-none fixed right-0 top-0 w-[210px] scale-x-[-1] opacity-70 sm:w-[550px]"
+      />
+
+      <motion.img
+        src="top-left.png"
+        alt=""
+        style={{ y: flowerY3 }}
+        className="pointer-events-none absolute bottom-0 right-0 !rotate-180 w-[250px] opacity-70 sm:w-[550px]"
+      />
+
+      <motion.img
+        src="top-left.png"
+        alt=""
+        style={{ y: flowerY3 }}
+        className="pointer-events-none absolute bottom-0 left-0 w-[150px] !rotate-180 scale-x-[-1] opacity-70 sm:w-[550px]"
+      />
+
+      <div className="flex w-full justify-center">
+        <motion.img
+          src="iconic-pic.png"
+          alt=""
+          style={{ y: flowerY3 }}
+          className="pointer-events-none absolute bottom-0 w-[180px] opacity-70 sm:w-[200px]"
+        />
+      </div>
+
+      {/* Floating Petals */}
+      {[...Array(3)].map((_, i) => (
+        <motion.div
+          key={`left-top-${i}`}
+          animate={{ y: [0, 80, 0], rotate: [0, 20, -20, 0] }}
+          transition={{
+            duration: 8 + i,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className="fixed opacity-30"
+          style={{ left: `${10 + i * 7}%`, top: `${20 + i * 5}%` }}
+        >
+          <GiVanillaFlower size={30} color="#f9a8d4" />
+        </motion.div>
+      ))}
+
+      {[...Array(3)].map((_, i) => (
+        <motion.div
+          key={`right-top-${i}`}
+          animate={{ y: [0, 80, 0], rotate: [0, 20, -20, 0] }}
+          transition={{
+            duration: 8 + i,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className="fixed opacity-30"
+          style={{ right: `${10 + i * 7}%`, top: `${20 + i * 5}%` }}
+        >
+          <GiVanillaFlower size={30} color="#f9a8d4" className="rotate-180" />
+        </motion.div>
+      ))}
 
       {/* Main Card */}
-      <motion.div className="sticky top-0 max-w-screen-lg p-5  mx-auto flex justify-center px-3  pb-[160px]">
+      <motion.div className="sticky top-10 flex justify-center px-3 pb-[130px] sm:px-4">
         <motion.div
           initial={{ opacity: 0, y: 60 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
           className="w-full max-w-3xl overflow-hidden"
         >
-          <div className="text-center ">
-            <motion.section
-              initial={{  x: 50 }}
-              whileInView={{  x: 0 }}
-              transition={{ duration: 1 }}
-              className="relative z-10 "
+          <div className="px-5 py-12 text-center sm:px-8">
+            <motion.div
+              initial={{ scale: 0.2 }}
+              whileInView={{ scale: 1 }}
+              style={{ scale: logoScale }}
+              className="mb-8 flex justify-center text-[#34104b]"
             >
-              <motion.div
-                initial={{ opacity: 0, x: 50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                // viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
-                className="flex justify-center"
-              >
-                <img
-                  src="basmalah.png"
-                  alt="basmalah"
-                  className="w-[300px] pb-5"
-                />
-              </motion.div>
+              <img className="w-[80px]" src="logo.png" alt="Wedding logo" />
+            </motion.div>
 
-              <div
-                className="flex justify-between font-th items-center
-            text-sm text-[#A25E77] sm:text-xl text-left scale-100 w-f
-            "
-              >
-                <div className="absolute  justify-center right-[50%]">และ</div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              className="flex justify-center"
+            >
+              <img src="tabreek.png" alt="Congratulations" />
+            </motion.div>
 
-                <div>{t.brideParent}</div>
-                <div>{t.groomParent}</div>
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              className="mt-8"
+            >
+              <p className="text-xl text-[#34104b] sm:text-2xl">{t.invite}</p>
+
+              <p className="mt-2 text-xl font-bold text-[#34104b] sm:text-2xl">
+                {t.wedding}
+              </p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: -40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              className="mt-10"
+            >
+              <h2 className="text-2xl font-bold text-[#c7963b] sm:text-4xl">
+                {t.groom}
+              </h2>
+
+              <p className="text-sm text-[#34104b] sm:text-2xl">
+                {t.groomParent}
+              </p>
+            </motion.div>
+
+            <motion.div
+              initial={{ scale: 0 }}
+              whileInView={{ scale: 1 }}
+              className="my-3 flex items-center gap-4"
+            >
+              <div className="h-px flex-1 bg-[#c7963b]" />
+              <span className="text-4xl text-[#c7963b]">&</span>
+              <div className="h-px flex-1 bg-[#c7963b]" />
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+            >
+              <h2 className="text-2xl font-bold text-[#c7963b] sm:text-4xl">
+                {t.bride}
+              </h2>
+
+              <p className="text-sm text-[#34104b] sm:text-2xl">
+                {t.brideParent}
+              </p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              className="my-12 flex items-center justify-center gap-4"
+            >
+              <div className="flex flex-col items-center justify-between gap-5">
+                <LuCalendarDays size={50} className="text-[#c7963b]" />
+                <span className="mt-2 text-xl font-semibold text-[#34104b] sm:text-3xl">
+                  {t.day}
+                </span>
               </div>
 
-              <div className="text-xl mt-3">{t.invitors}</div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                className="mt-8"
-              >
-                <p className="text-xl text-[#A25E77] sm:text-2xl mb-5">
-                  {t.invite}
-                </p>
-                <p className="font-black text-4xl">
-                  {lang == "ar" && "بين"}
-                  {lang == "th" && "ระหว่าง"}
-                  {lang == "en" && "between"}
-                </p>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, x: -40 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.9 }}
-                className="mt-3 flex justify-center"
-              >
-                <img
-                  src={
-                    lang == "ar" ? "asiah&helmi-ar.png" : "asiah&helmi-en.png"
-                  }
-                  className="w-[600px]"
-                />
-              </motion.div>
-            </motion.section>
-
-            {/*  bottom section */}
-            <motion.section
-              style={{ y: -textY }}
-              className="relative z-50 bg-white"
-            >
-              <motion.div
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="w-full p-5 bg-[#A25E77] rounded-full text-white text-3xl font-bold "
-              >
-                {t.date}
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                className="grid grid-cols-4 items-start text-[#A25E77] sm:text-xl mt-16 w-full"
-              >
-                <div className="flex flex-col gap-5 items-center">
-                  <img src={"utensils.png"} className="w-[150px]" />
-                  <p className="font-bold">
-                    10:00 - 17:00 {lang == "th" && "น."}
-                  </p>
+              <div className="flex flex-col items-center gap-3 border-x border-[#c7963b] px-5">
+                <div className="text-xl font-bold text-[#34104b] sm:text-3xl">
+                  {t.month}
                 </div>
 
-                <aside
-                  className={`col-span-3 ${lang == "ar" ? "border-r-2 pr-5" : "border-l-2 pl-5"} border-[#B46278] `}
-                >
-                  <section className="flex items-start gap-3">
-                    <div className="h-13 w-13 bg-[#B46278] rounded-full p-2">
-                      <GoHomeFill className=" text-white text-[20px]" />
-                    </div>
+                <div className="text-3xl font-bold text-[#c7963b] sm:text-6xl">
+                  01
+                </div>
 
-                    <div className="font-bold text-[#A25E77] text-lg text-start ">
-                      <p className="font-th text-2xl">
-                        สถาบันกีรออาตีอารีย์สมัยปูยุด
-                      </p>
-                      <p className="font-en">
-                        Baraho, Mueang Pattani District, Pattani 94000
-                      </p>
-                      <p className="font-ar">
-                        معهد القراءات العصرية – فوجوء براهو، مدينة فطاني، محافظة
-                        فطاني 94000
-                      </p>
-                    </div>
-                  </section>
-                </aside>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, x: lang == "ar" ? 40 : -40 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6 }}
-                className=" items-start text-[#A25E77] sm:text-xl  w-full "
-              >
-                <section className="grid grid-cols-5 w-full">
-                  <aside className="col-span-2 text-start font-bold mt-5">
-                    {lang === "th" ? (
-                      <>
-                        <p>099-2209720 (เจ้าบ่าว)</p>
-                        <p>061-4796203 (เจ้าสาว)</p>
-                        <p>0619219329 (คุณพ่อเจ้าสาว)</p>
-                        <p>0631067094 (คุณแม่เจ้าสาว)</p>
-                      </>
-                    ) : lang === "ar" ? (
-                      <>
-                        <p>099-2209720 (العريس)</p>
-                        <p>061-4796203 (العروس)</p>
-                        <p>0619219329 (والد العروس)</p>
-                        <p>0631067094 (والدة العروس)</p>
-                      </>
-                    ) : (
-                      <>
-                        <p>099-2209720 (Groom)</p>
-                        <p>061-4796203 (Bride)</p>
-                        <p>0619219329 (Bride's Father)</p>
-                        <p>0631067094 (Bride's Mother)</p>
-                      </>
-                    )}
-                  </aside>
-                  <aside className="flex justify-between mt-5 col-span-3 items-end">
-                    <div className="flex flex-col items-start">
-                      <p className="font-black font-en text-xl mb-3">Theme:</p>
-                      <div className="flex flex-row">
-                        <div className="flex items-center gap-3">
-                          <div className="h-10 w-10 rounded-full bg-[#D48AA8]"></div>
-                          <div className="h-10 w-10 rounded-full bg-[#F48C8C]"></div>
-                          <div className="h-10 w-10 rounded-full bg-[#FCE1DC]"></div>
-                          <div className="h-10 w-10 rounded-full bg-[#FDEBD9]"></div>
-                          <div className="h-10 w-10 rounded-full bg-[#FFC58F]"></div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="flex flex-col items-center gap-3">
-                      <img src={"scan.png"} className="w-[80px] sm:w-[100px]" />
-                      <button
-                        className=" rounded-xl duration-200 hover:bg-slate-200 p-1 shadow-sm text-sm"
-                        onClick={() => {
-                          window.open(
-                            "https://maps.app.goo.gl/vKCMsrikEJEEQS466",
-                            "_blank",
-                          );
-                        }}
-                      >
-                        📍 Open Map
-                      </button>
-                    </div>
-                  </aside>
-                </section>
-              </motion.div>
-
-              <div className="text-[#A25E77] mt-10 text-xl font-bold">
-                {lang === "th" && `( ขออภัยหากมิได้เรียนเชิญด้วยตนเอง )`}
-                {lang === "en" &&
-                  `( We apologize for not being able to invite you in person. )`}
-                {lang === "ar" && `( نعتذر إن لم نتمكن من دعوتكم شخصيًا. )`}
+                <div className="text-xl font-semibold text-[#34104b] sm:text-2xl">
+                  {t.year}
+                </div>
               </div>
-            </motion.section>
+
+              <div className="flex flex-col items-center gap-3">
+                <LuClock3 size={50} className="text-[#c7963b]" />
+                <div className="flex flex-col font-semibold text-[#34104b] sm:text-xl">
+                  <span>{t.time1}</span>
+                  <span>{t.time2}</span>
+                </div>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              className="flex items-center justify-between gap-3 sm:justify-center sm:gap-16 sm:text-2xl"
+            >
+              <LuMapPin className="text-[30px] text-[#c7963b] sm:text-[50px]" />
+
+              <div>
+                <h3 className="font-bold text-[#34104b]">{t.venue}</h3>
+                <p className="text-[#34104b]">{t.location}</p>
+              </div>
+
+              <div className="flex flex-col items-center gap-3">
+                <img src={"scan.png"} className="w-[80px] sm:w-[100px]" />
+                <button
+                  className="
+                  rounded-xl
+                  duration-200
+                  hover:bg-slate-200
+                p-1 shadow-sm text-sm
+                "
+                  onClick={() => {
+                    window.open(
+                      "https://maps.app.goo.gl/vKCMsrikEJEEQS466",
+                      "_blank",
+                    );
+                  }}
+                >
+                  📍 Open Map
+                </button>
+              </div>
+            </motion.div>
           </div>
         </motion.div>
       </motion.div>

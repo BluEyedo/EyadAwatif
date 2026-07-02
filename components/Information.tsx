@@ -1,13 +1,12 @@
 "use client";
 
+import { Lang } from "@/App";
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { BiChevronDown } from "react-icons/bi";
 import { BsArrowDown } from "react-icons/bs";
 import { GiVanillaFlower } from "react-icons/gi";
 import { LuCalendarDays, LuClock3, LuMapPin } from "react-icons/lu";
-
-type Lang = "ar" | "en" | "th";
 
 const mapUrl = "https://maps.app.goo.gl/vKCMsrikEJEEQS466";
 const text = {
@@ -20,9 +19,9 @@ const text = {
     brideParent: "(والدتها)شريفة علي",
     day: "السبت",
     month: "أغسطس",
-    year: "٢٠٢٦",
-    time1: "١٠:٠٠ صباحًا",
-    time2: "٠٣:٠٠ مساءً",
+    year: "2026",
+    time1: "10:00 صباحًا",
+    time2: "03:00 مساءً",
     venue: "مطعم حسنة فلوء فاكو",
     location: "محافظة يالا 95000",
     mapTitle: "عرض الموقع",
@@ -69,9 +68,10 @@ const text = {
   },
 };
 
-export default function Information() {
+type Props = { lang: Lang };
+
+export default function Information({ lang }: Props) {
   const ref = useRef<HTMLDivElement>(null);
-  const [lang, setLang] = useState<Lang>("ar");
 
   const t = text[lang];
 
@@ -126,7 +126,7 @@ export default function Information() {
   return (
     <section
       ref={ref}
-      className={`relative min-h-[250vh] bg-[#FDF3EC] ${fontClass}`}
+      className={`relative  bg-[#FDF3EC] ${fontClass} shadow-[0_10px_40px_rgba(0,0,0,0.18)] overflow-hidden z-30 scale-100`}
     >
       <div
         className={`fixed bottom-1 left-0 right-0 z-[999] flex justify-center ${scrollY > 300 && "opacity-0"} duration-300`}
@@ -140,80 +140,34 @@ export default function Information() {
           </p>
         </div>
       </div>
-      {/* Language Button */}
-      <div className="fixed right-4 top-4 z-[999] rounded-full border border-amber-200 bg-[#f7edd8]/90 p-1 shadow-xl backdrop-blur">
-        <div className="flex gap-1">
-          {(["ar", "en", "th"] as const).map((item: Lang) => (
-            <button
-              key={item}
-              onClick={() => setLang(item)}
-              className={`rounded-full px-3 py-2 text-xs font-bold transition ${
-                lang === item
-                  ? "bg-[#34104b] text-white"
-                  : "text-[#34104b] hover:bg-white/60"
-              }`}
-            >
-              {item === "ar" ? "عربي" : item === "en" ? "English" : "ไทย"}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Map Invitation Button */}
-      {/* <a
-        href={mapUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="group fixed bottom-6 left-1/2 z-[999] -translate-x-1/2"
-      >
-        <div className="relative overflow-hidden rounded-2xl border border-amber-300/40 bg-[#f7edd8] px-7 py-4 shadow-[0_20px_50px_rgba(0,0,0,0.35)] transition-all duration-500 group-hover:-translate-y-2 group-hover:scale-105">
-          <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/50 to-transparent transition-all duration-1000 group-hover:translate-x-full" />
-
-          <div className="absolute -top-3 left-1/2 flex h-9 w-9 -translate-x-1/2 items-center justify-center rounded-full bg-rose-700 text-white shadow-lg">
-            ❤
-          </div>
-
-          <div className="mt-3 text-center">
-            <p className="text-[10px] font-bold tracking-[0.35em] text-[#c7963b]">
-              {t.invitation}
-            </p>
-
-            <h3 className="mt-1 text-base font-bold text-[#34104b]">
-              📍 {t.mapTitle}
-            </h3>
-
-            <p className="text-[11px] text-[#34104b]/70">{t.mapSmall}</p>
-          </div>
-        </div>
-      </a> */}
 
       {/* Background Flowers */}
       <motion.img
         src="top-left.png"
         alt=""
-        style={{ y: flowerY }}
-        className="pointer-events-none fixed left-0 top-0 w-[210px] opacity-70 sm:w-[550px]"
+        style={{ y: flowerY2 }}
+        className="pointer-events-none fixed left-0 top-0 w-[210px] opacity-70 sm:w-[550px] z-10"
       />
 
       <motion.img
         src="top-right.png"
         alt=""
         style={{ y: flowerY2 }}
-        className="pointer-events-none fixed right-0 top-0 w-[210px] scale-x-[-1] opacity-70 sm:w-[550px]"
+        className="pointer-events-none fixed right-0 top-0 w-[210px] scale-x-[-1] opacity-70 sm:w-[550px] z-10"
       />
 
       <motion.img
         src="top-left.png"
         alt=""
         style={{ y: flowerY3 }}
-        className="pointer-events-none absolute bottom-0 right-0 !rotate-180 w-[250px] opacity-70 sm:w-[550px]"
+        className="pointer-events-none absolute bottom-0 right-0 !rotate-180 w-[250px] opacity-70 sm:w-[550px] z-10"
       />
 
       <motion.img
-        src="top-left.png"
+        src="top-right.png"
         alt=""
-        style={{ y: flowerY3 }}
-        className="pointer-events-none absolute bottom-0 left-0 w-[150px] !rotate-180 scale-x-[-1] opacity-70 sm:w-[550px]"
+        style={{ y: flowerY2 }}
+        className="pointer-events-none absolute bottom-0 left-0 !rotate-180 w-[250px] opacity-70 sm:w-[550px] z-10"
       />
 
       <div className="flex w-full justify-center">
@@ -221,7 +175,7 @@ export default function Information() {
           src="iconic-pic.png"
           alt=""
           style={{ y: flowerY3 }}
-          className="pointer-events-none absolute bottom-0 w-[180px] opacity-70 sm:w-[200px]"
+          className="pointer-events-none absolute bottom-0 w-[180px] opacity-70 sm:w-[200px] z-10"
         />
       </div>
 
@@ -259,7 +213,7 @@ export default function Information() {
       ))}
 
       {/* Main Card */}
-      <motion.div className="sticky top-10 flex justify-center px-3 pb-[130px] sm:px-4">
+      <motion.div className="sticky top-10 flex justify-center px-3 pb-[130px] sm:px-4 z-20">
         <motion.div
           initial={{ opacity: 0, y: 60 }}
           whileInView={{ opacity: 1, y: 0 }}

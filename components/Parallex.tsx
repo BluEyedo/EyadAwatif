@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 
 export default function ParallaxHero() {
   const ref = useRef<HTMLElement | null>(null);
@@ -16,50 +16,34 @@ export default function ParallaxHero() {
     damping: 30,
   };
 
-  const backgroundScale = useTransform(scrollYProgress, [0, 1], [1, 1.15]);
-  const frontY = useSpring(
-    useTransform(scrollYProgress, [0, 1], [0, 650]),
-    spring,
-  );
   const textY = useSpring(
     useTransform(scrollYProgress, [0, 1], [0, 250]),
     spring,
   );
-  const textOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
 
   return (
-    <section ref={ref} className="relative h-screen overflow-hidden bg-[#FDF3EC]">
+    <section
+      ref={ref}
+      className="relative mx-auto min-h-screen lg:min-h-[1050px] max-w-screen-sm overflow-hidden shadow-lg shadow-rose-200"
+    >
       <motion.div
-        style={{ y: frontY, scale: backgroundScale }}
-        className="absolute inset-0"
+        style={{ y: textY }}
+        className="absolute  h-full w-full inset-0 z-20 pointer-events-none "
       >
-        <img
-          src="bg.png"
-          alt=""
-          className="absolute inset-0 h-full w-full object-cover object-top"
-        />
-        <div className="absolute inset-0 " />
+        <img src="bg.png" className="h-full w-full object-cover" />
       </motion.div>
 
-      {/* <motion.div style={{ y: frontY }} className="absolute inset-0 z-40 pointer-events-none">
-        <img
-          src="bg.png"
-          alt=""
-          className="absolute inset-0 h-full w-full object-cover object-top"
-        />
-      </motion.div> */}
-
       <motion.div
-        style={{ y: textY, opacity: textOpacity }}
-        className="relative z-50 flex h-full flex-col items-center justify-center px-6 text-center"
+        style={{ y: textY }}
+        className="relative z-50 flex min-h-screen flex-col items-center justify-center px-4 text-center sm:px-6 "
       >
         <img
           src="Awatif&Eyad.png"
           alt="Awatif and Eyad"
-          className="h-auto w-[700px] max-w-full animate-fadeIn"
+          className="h-auto w-full max-w-[450px] animate-fadeIn"
         />
 
-        <p className="mt-8 text-2xl md:text-4xl uppercase tracking-[0.3em] animate-fadeIn-sec text-yellow-600">
+        <p className="mt-6 animate-fadeIn-sec text-xl uppercase tracking-[0.2em] text-yellow-600 sm:mt-8 sm:text-2xl sm:tracking-[0.3em] md:text-3xl">
           01.08.2026
         </p>
       </motion.div>

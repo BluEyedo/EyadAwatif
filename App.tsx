@@ -4,13 +4,36 @@ import ParallaxHero from "./components/Parallex";
 import Information from "./components/Information";
 // import { generateRomanticPoem } from './services/geminiService';
 
+export type Lang = "ar" | "en" | "th";
+
 const App: React.FC = () => {
+  const [lang, setLang] = useState<Lang>("ar");
+
   return (
     <div className="font-romantic">
       {/* <HeartBackground /> */}
 
+      {/* Language Button */}
+      <div className="fixed right-4 top-4 z-[999] rounded-full border border-amber-200 bg-[#f7edd8]/90 p-1 shadow-xl backdrop-blur">
+        <div className="flex gap-1">
+          {(["ar", "en", "th"] as const).map((item: Lang) => (
+            <button
+              key={item}
+              onClick={() => setLang(item)}
+              className={`rounded-full px-3 py-2 text-xs font-bold transition ${
+                lang === item
+                  ? "bg-[#34104b] text-white"
+                  : "text-[#34104b] hover:bg-white/60"
+              }`}
+            >
+              {item === "ar" ? "عربي" : item === "en" ? "English" : "ไทย"}
+            </button>
+          ))}
+        </div>
+      </div>
+
       <ParallaxHero />
-      <Information />
+      <Information lang={lang} />
 
       <style>{`
         .pointing {

@@ -32,7 +32,7 @@ const App: React.FC = () => {
         </div>
       </div>
 
-      <ParallaxHero />
+      <ParallaxHero lang={lang} />
       <Information lang={lang} />
 
       <style>{`

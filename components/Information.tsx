@@ -109,38 +109,12 @@ export default function Information({ lang }: Props) {
       damping: 25,
     },
   );
-  const [scrollY, setScrollY] = useState(0);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
+  
   return (
     <section
       ref={ref}
       className={`relative  bg-[#FDF3EC] ${fontClass} shadow-[0_10px_40px_rgba(0,0,0,0.18)] overflow-hidden z-30 scale-100`}
     >
-      <div
-        className={`fixed bottom-1 left-0 right-0 z-[999] flex justify-center ${scrollY > 300 && "opacity-0"} duration-300`}
-      >
-        <div className="bg-yellow-100 p-2 m-2 rounded-lg shadow-sm shadow-yellow-600 flex items-center gap-3 opacity-70">
-          <BiChevronDown className="pointing text-xl text-orange-600" />
-          <p className="text-xl ">
-            {lang == "ar" && "مرّر للأسفل"}
-            {lang == "th" && "เลื่อนลง"}
-            {lang == "en" && "scroll down"}
-          </p>
-        </div>
-      </div>
-
       {/* Background Flowers */}
       <motion.img
         src="top-left.png"
